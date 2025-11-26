@@ -105,14 +105,14 @@ export default function DownloadModal({ isOpen, onClose }: DownloadModalProps) {
                 whileTap={isDownloadEnabled ? { scale: 0.98 } : {}}
                 onClick={handleDownload}
                 disabled={!isDownloadEnabled}
-                className={`w-full flex items-center justify-center gap-3 py-4 rounded-xl font-bold text-lg transition-all ${
+                className={`w-full flex items-center justify-center gap-3 py-4 rounded-xl font-semibold text-base transition-all ${
                   isDownloadEnabled
                     ? 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white shadow-lg shadow-purple-500/50'
-                    : 'bg-slate-800 text-gray-500 cursor-not-allowed'
+                    : 'bg-slate-800/50 text-gray-400 cursor-not-allowed border border-slate-700/50'
                 }`}
               >
                 <Download size={20} />
-                {isDownloadEnabled ? 'Download Sekarang' : 'Centang persetujuan & verifikasi reCAPTCHA'}
+                {isDownloadEnabled ? 'Download Sekarang' : 'Selesaikan verifikasi untuk download'}
               </motion.button>
 
               <p className="text-gray-500 text-xs text-center mt-4">
