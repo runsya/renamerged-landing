@@ -127,11 +127,13 @@ export default function HeroSection({ onDownloadClick }: HeroSectionProps) {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.7 }}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 md:gap-3 bg-gradient-to-r from-slate-700 to-slate-800 px-6 md:px-10 py-4 md:py-5 rounded-xl font-bold text-base md:text-xl text-white border border-slate-600 shadow-lg"
+                className="flex flex-col items-center justify-center gap-1 bg-slate-800/50 border border-slate-700 px-6 py-4 md:py-5 rounded-xl shadow-lg h-full"
               >
-                <Download size={20} className="md:w-[26px] md:h-[26px] text-slate-300" />
-                <span className="text-white">{formatDownloads(totalDownloads)}</span>
-                <span className="text-slate-400">downloads</span>
+                <span className="text-slate-400 text-xs font-medium uppercase tracking-wide">Downloads</span>
+                <div className="flex items-center gap-2">
+                  <Download size={18} className="text-slate-300" />
+                  <span className="text-white font-bold text-xl">{formatDownloads(totalDownloads)}</span>
+                </div>
               </motion.div>
             </motion.div>
 
