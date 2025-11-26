@@ -34,13 +34,13 @@ export default function Navbar({ onDownloadClick }: NavbarProps) {
 
           <div className="hidden md:flex items-center space-x-8">
             <button
-              onClick={() => scrollToSection('fitur')}
+              onClick={() => scrollToSection('features')}
               className="text-gray-300 hover:text-purple-400 transition-colors"
             >
               Fitur
             </button>
             <button
-              onClick={() => scrollToSection('cara-kerja')}
+              onClick={() => scrollToSection('how-it-works')}
               className="text-gray-300 hover:text-purple-400 transition-colors"
             >
               Cara Kerja
