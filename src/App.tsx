@@ -3,7 +3,6 @@ import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import FeaturesSection from './components/FeaturesSection';
 import HowItWorksSection from './components/HowItWorksSection';
-import ExamplesSection from './components/ExamplesSection';
 import SecuritySection from './components/SecuritySection';
 import SecurityTransparencySection from './components/SecurityTransparencySection';
 import InstallationGuideSection from './components/InstallationGuideSection';
@@ -21,7 +20,6 @@ export default function App() {
       <HeroSection onDownloadClick={() => setIsDownloadModalOpen(true)} />
       <FeaturesSection />
       <HowItWorksSection />
-      <ExamplesSection />
       <SecuritySection />
       <SecurityTransparencySection />
       <InstallationGuideSection />
