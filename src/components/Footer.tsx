@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { MessageSquare } from 'lucide-react';
+import { MessageSquare, Github } from 'lucide-react';
 import { APP_CONFIG } from '../config';
 
 export default function Footer() {
@@ -68,7 +68,16 @@ export default function Footer() {
               </button>
             </nav>
 
-            <div className="md:flex md:justify-end">
+            <div className="md:flex md:justify-end gap-3">
+              <a
+                href="https://github.com/iunoxid"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 border border-white/20 rounded-lg hover:border-purple-400 hover:bg-purple-500/10 transition-all duration-300 text-white font-medium"
+              >
+                <Github className="w-4 h-4" />
+                GitHub
+              </a>
               <a
                 href="https://t.me/iunoin"
                 target="_blank"
