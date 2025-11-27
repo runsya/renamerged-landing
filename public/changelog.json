@@ -1,0 +1,62 @@
+{
+  "versions": [
+    {
+      "version": "2.0.0",
+      "date": "09/04/2025",
+      "penambahan": [
+        "Menambahkan GUI Sebagai Interface",
+        "Dark Mode"
+      ],
+      "perubahan": [
+        "Seluruh App menjadi GUI tidak lagi menjadi CLI"
+      ],
+      "perbaikan": [
+        "Fix beberapa bugs ketika migrate dari CLI ke GUI"
+      ]
+    },
+    {
+      "version": "1.2.0",
+      "date": "20/02/2025",
+      "penambahan": [],
+      "perubahan": [
+        "Seluruh Format tanggal DD/MM/YYYY dijadikan DD-MM-YYYY saat result PDF"
+      ],
+      "perbaikan": [
+        "Fix Bug Referensi tidak terbaca",
+        "Fix Bug NPWP terpotong",
+        "Fix Bug Referensi tidak tampil di Filename PDF",
+        "Fix Bug Crash ketika Faktur Pajak Tidak Valid",
+        "Fix Bug Crash ketika Referensi Kosong",
+        "Fix Bug Crash ketika Referensi Menggunakan karakter yang dilarang",
+        "Fix Bug Error karena format tanggal DD/MM/YYYY",
+        "Fix Bug Memory Leaking",
+        "Fix Result Folder tidak terbaca pada keadaan tertentu",
+        "Fix Result Folder tidak tergenerate pada keadaan tertentu",
+        "Fix Bug CLI Tidak bisa diclose"
+      ]
+    },
+    {
+      "version": "1.1.0",
+      "date": "16/02/2025",
+      "penambahan": [
+        "Mode Rename Saja",
+        "Referensi Sebagai Nama File PDF",
+        "Menambahkan IDTKU, agar perusahaan dengan lebih dari 1 IDTKU bisa pakai",
+        "Result Folder IDTKU Berdasarkan isi File PDF"
+      ],
+      "perubahan": [],
+      "perbaikan": []
+    },
+    {
+      "version": "1.0.0",
+      "date": "14/02/2025",
+      "penambahan": [
+        "Intial Release",
+        "CLI Version",
+        "Mode Rename + Merge"
+      ],
+      "perubahan": [],
+      "perbaikan": []
+    }
+  ]
+}

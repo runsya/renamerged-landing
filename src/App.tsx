@@ -7,6 +7,7 @@ import SecuritySection from './components/SecuritySection';
 import SecurityTransparencySection from './components/SecurityTransparencySection';
 import InstallationGuideSection from './components/InstallationGuideSection';
 import FAQSection from './components/FAQSection';
+import ChangelogSection from './components/ChangelogSection';
 import DonationSection from './components/DonationSection';
 import Footer from './components/Footer';
 import DownloadModal from './components/DownloadModal';
@@ -24,6 +25,7 @@ export default function App() {
       <SecurityTransparencySection />
       <InstallationGuideSection />
       <FAQSection />
+      <ChangelogSection />
       <DonationSection />
       <Footer />
       <DownloadModal
