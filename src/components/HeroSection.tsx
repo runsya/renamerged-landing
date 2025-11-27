@@ -24,15 +24,10 @@ export default function HeroSection({ onDownloadClick }: HeroSectionProps) {
     const fetchDownloads = async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/track-download`,
-          {
-            headers: {
-              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-            },
-          }
+          `${import.meta.env.VITE_API_URL}/api/download-count`
         );
         const data = await response.json();
-        setTotalDownloads(data.downloads || 0);
+        setTotalDownloads(data.count || 0);
       } catch (error) {
         console.error('Error fetching downloads:', error);
         setTotalDownloads(0);

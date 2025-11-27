@@ -18,11 +18,10 @@ export default function DownloadModal({ isOpen, onClose }: DownloadModalProps) {
     if (isAgreed && recaptchaToken) {
       try {
         await fetch(
-          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/track-download`,
+          `${import.meta.env.VITE_API_URL}/api/track-download`,
           {
             method: 'POST',
             headers: {
-              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
               'Content-Type': 'application/json',
             },
           }
