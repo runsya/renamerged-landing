@@ -1,7 +1,7 @@
 import { Download, Zap, ShieldCheck, Check } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { APP_CONFIG } from '../config';
+import { APP_CONFIG, API_BASE_URL } from '../config';
 
 interface HeroSectionProps {
   onDownloadClick: () => void;
@@ -24,7 +24,7 @@ export default function HeroSection({ onDownloadClick }: HeroSectionProps) {
     const fetchDownloads = async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/download-count`
+          `${API_BASE_URL}/api/download-count`
         );
         const data = await response.json();
         setTotalDownloads(data.count || 0);
