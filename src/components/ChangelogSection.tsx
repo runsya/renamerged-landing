@@ -59,7 +59,7 @@ export default function ChangelogSection() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-700 to-blue-900 bg-clip-text text-transparent">
+          <h2 className="text-4xl font-bold mb-4 pb-1 bg-gradient-to-r from-blue-700 to-blue-900 bg-clip-text text-transparent">
             Changelog
           </h2>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
