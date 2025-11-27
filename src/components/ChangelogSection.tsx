@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, RefreshCw, Wrench, Calendar, ChevronDown } from 'lucide-react';
 
 interface ChangelogVersion {
@@ -68,6 +68,7 @@ export default function ChangelogSection() {
         </motion.div>
 
         <div className="max-w-4xl mx-auto">
+          <AnimatePresence mode="sync">
           <div className="space-y-6">
           {visibleVersions.map((version, index) => {
             const isExpanded = expandedVersions.has(version.version);
@@ -79,10 +80,10 @@ export default function ChangelogSection() {
             return (
               <motion.div
                 key={version.version}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                initial={{ opacity: 0, y: 20, height: 0 }}
+                animate={{ opacity: 1, y: 0, height: 'auto' }}
+                exit={{ opacity: 0, y: -20, height: 0 }}
+                transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
                 className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100"
               >
                 <button
@@ -190,6 +191,7 @@ export default function ChangelogSection() {
             );
           })}
           </div>
+          </AnimatePresence>
 
           {hasMoreVersions && (
             <motion.div
