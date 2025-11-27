@@ -202,9 +202,14 @@ export default function ChangelogSection() {
 
           {hasMoreVersions && (
             <motion.div
+              layout
               initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                layout: { duration: 0.5, ease: [0.4, 0, 0.2, 1] },
+                opacity: { duration: 0.3 },
+                y: { duration: 0.3 }
+              }}
               className="flex justify-center pt-4"
             >
               <button

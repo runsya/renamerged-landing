@@ -104,7 +104,7 @@ export default function InstallationGuideSection() {
                 <h4 className="text-white font-bold text-lg mb-2">Mengapa Peringatan Ini Muncul?</h4>
                 <p className="text-gray-400 leading-relaxed mb-4">
                   Windows SmartScreen menampilkan peringatan untuk aplikasi yang belum memiliki digital signature dari Microsoft.
-                  Digital signature membutuhkan biaya tahunan yang cukup besar (~USD $400/tahun). Karena aplikasi ini 100% gratis dan open source,
+                  Digital signature membutuhkan biaya tahunan yang cukup besar (~USD $400/tahun). Karena aplikasi ini 100% gratis,
                   kami belum menggunakan digital signature untuk menjaga aplikasi tetap gratis untuk semua pengguna.
                 </p>
                 <div className="flex items-center gap-2 text-green-400">
