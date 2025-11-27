@@ -2,7 +2,7 @@ import { X, Download, CheckCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useRef } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
-import { APP_CONFIG } from '../config';
+import { APP_CONFIG, API_BASE_URL } from '../config';
 
 interface DownloadModalProps {
   isOpen: boolean;
@@ -18,7 +18,7 @@ export default function DownloadModal({ isOpen, onClose }: DownloadModalProps) {
     if (isAgreed && recaptchaToken) {
       try {
         await fetch(
-          `${import.meta.env.VITE_API_URL}/api/track-download`,
+          `${API_BASE_URL}/api/track-download`,
           {
             method: 'POST',
             headers: {
