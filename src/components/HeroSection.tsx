@@ -1,6 +1,7 @@
 import { Download, Zap, ShieldCheck, Check } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { APP_CONFIG } from '../config';
+import DownloadCounter from './DownloadCounter';
 
 interface HeroSectionProps {
   onDownloadClick: () => void;
@@ -39,15 +40,19 @@ export default function HeroSection({ onDownloadClick }: HeroSectionProps) {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/30 rounded-full px-4 py-2 mb-6"
-          >
-            <Zap className="text-purple-400" size={16} />
-            <span className="text-purple-300 text-sm font-medium">100% Offline • 100% Gratis</span>
-          </motion.div>
+          <div className="flex flex-wrap items-center gap-3 mb-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/30 rounded-full px-4 py-2"
+            >
+              <Zap className="text-purple-400" size={16} />
+              <span className="text-purple-300 text-sm font-medium">100% Offline • 100% Gratis</span>
+            </motion.div>
+
+            <DownloadCounter />
+          </div>
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
