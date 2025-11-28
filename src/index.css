@@ -11,6 +11,10 @@
     @apply bg-slate-900 text-white antialiased;
   }
 
+  section {
+    transition: background-color 0.6s ease, background-image 0.6s ease;
+  }
+
   * {
     scrollbar-width: thin;
     scrollbar-color: #8b5cf6 #1e293b;

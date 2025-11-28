@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 export default function SecuritySection() {
   return (
     <section id="security" className="relative py-24 px-4">
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900" />
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-900/95 via-slate-900 to-slate-900/95" />
 
       <div className="relative z-10 max-w-5xl mx-auto">
         <motion.div

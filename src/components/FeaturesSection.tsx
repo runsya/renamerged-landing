@@ -31,7 +31,7 @@ const features = [
 export default function FeaturesSection() {
   return (
     <section id="features" className="relative py-24 px-4">
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900" />
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-900/95 to-slate-900/90" />
 
       <div className="relative z-10 max-w-7xl mx-auto">
         <motion.div

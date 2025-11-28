@@ -38,7 +38,7 @@ export default function FAQSection() {
 
   return (
     <section id="faq" className="relative py-24 px-4">
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900" />
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-900/95 via-slate-850 to-slate-900" />
 
       <div className="relative z-10 max-w-4xl mx-auto">
         <motion.div
@@ -49,10 +49,10 @@ export default function FAQSection() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white leading-tight">
-            Frequently Asked Questions
+            FAQ - Cara Rename Faktur Pajak Coretax
           </h2>
           <p className="text-gray-400 text-lg">
-            Pertanyaan yang sering ditanyakan tentang Renamerged
+            Pertanyaan seputar cara ubah nama faktur pajak sekaligus banyak file
           </p>
         </motion.div>
 

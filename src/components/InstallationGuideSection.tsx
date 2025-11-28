@@ -31,7 +31,7 @@ const steps = [
 export default function InstallationGuideSection() {
   return (
     <section id="panduan" className="relative py-24 px-4">
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-800 via-slate-900 to-slate-800" />
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-900/90 via-slate-900 to-slate-900/95" />
 
       <div className="relative z-10 max-w-7xl mx-auto">
         <motion.div
@@ -104,7 +104,7 @@ export default function InstallationGuideSection() {
                 <h4 className="text-white font-bold text-lg mb-2">Mengapa Peringatan Ini Muncul?</h4>
                 <p className="text-gray-400 leading-relaxed mb-4">
                   Windows SmartScreen menampilkan peringatan untuk aplikasi yang belum memiliki digital signature dari Microsoft.
-                  Digital signature membutuhkan biaya tahunan yang cukup besar (~USD $400/tahun). Karena aplikasi ini 100% gratis dan open source,
+                  Digital signature membutuhkan biaya tahunan yang cukup besar (~USD $400/tahun). Karena aplikasi ini 100% gratis,
                   kami belum menggunakan digital signature untuk menjaga aplikasi tetap gratis untuk semua pengguna.
                 </p>
                 <div className="flex items-center gap-2 text-green-400">
