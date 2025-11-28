@@ -31,7 +31,7 @@ Website landing page modern untuk aplikasi Renamerged - tools untuk menggabungka
 ### Prerequisites
 
 - Node.js 18+ or 20+ (LTS recommended)
-- npm atau yarn
+- npm atau yarn .
 
 ### Installation
 
