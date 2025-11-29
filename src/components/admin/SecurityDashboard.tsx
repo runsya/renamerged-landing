@@ -41,6 +41,7 @@ export default function SecurityDashboard() {
   const [loading, setLoading] = useState(true);
   const [savingConfig, setSavingConfig] = useState(false);
   const [cleaningLogs, setCleaningLogs] = useState(false);
+  const [testingBot, setTestingBot] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalAttempts, setTotalAttempts] = useState(0);
   const attemptsPerPage = 20;
@@ -169,6 +170,45 @@ export default function SecurityDashboard() {
     }
   };
 
+  const handleTestBot = async () => {
+    if (!securityConfig?.telegram_bot_token || !securityConfig?.telegram_chat_id) {
+      showToast('Please configure Telegram Bot Token and Chat ID first', 'error');
+      return;
+    }
+
+    setTestingBot(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-telegram-notification`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            type: 'test',
+            email: user?.email || 'admin',
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to send test notification');
+      }
+
+      showToast('Test notification sent successfully! Check your Telegram.', 'success');
+    } catch (error: any) {
+      console.error('Failed to test bot:', error);
+      showToast(error.message || 'Failed to send test notification', 'error');
+    } finally {
+      setTestingBot(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -248,48 +288,64 @@ export default function SecurityDashboard() {
             <div>
               <label className="block text-sm text-slate-400 mb-2">Max Failed Attempts</label>
               <input
-                type="number"
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 value={securityConfig.max_failed_attempts}
-                onChange={(e) => setSecurityConfig({ ...securityConfig, max_failed_attempts: parseInt(e.target.value) })}
+                onChange={(e) => {
+                  const val = parseInt(e.target.value) || 3;
+                  setSecurityConfig({ ...securityConfig, max_failed_attempts: Math.min(Math.max(val, 3), 10) });
+                }}
                 className="w-full px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                min="3"
-                max="10"
+                placeholder="3-10"
               />
             </div>
 
             <div>
               <label className="block text-sm text-slate-400 mb-2">Lockout Duration (minutes)</label>
               <input
-                type="number"
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 value={securityConfig.lockout_duration_minutes}
-                onChange={(e) => setSecurityConfig({ ...securityConfig, lockout_duration_minutes: parseInt(e.target.value) })}
+                onChange={(e) => {
+                  const val = parseInt(e.target.value) || 15;
+                  setSecurityConfig({ ...securityConfig, lockout_duration_minutes: Math.min(Math.max(val, 15), 1440) });
+                }}
                 className="w-full px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                min="15"
-                max="1440"
+                placeholder="15-1440"
               />
             </div>
 
             <div>
               <label className="block text-sm text-slate-400 mb-2">Session Timeout (minutes)</label>
               <input
-                type="number"
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 value={securityConfig.session_timeout_minutes}
-                onChange={(e) => setSecurityConfig({ ...securityConfig, session_timeout_minutes: parseInt(e.target.value) })}
+                onChange={(e) => {
+                  const val = parseInt(e.target.value) || 15;
+                  setSecurityConfig({ ...securityConfig, session_timeout_minutes: Math.min(Math.max(val, 15), 1440) });
+                }}
                 className="w-full px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                min="15"
-                max="1440"
+                placeholder="15-1440"
               />
             </div>
 
             <div>
               <label className="block text-sm text-slate-400 mb-2">Log Retention (days)</label>
               <input
-                type="number"
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 value={securityConfig.log_retention_days}
-                onChange={(e) => setSecurityConfig({ ...securityConfig, log_retention_days: parseInt(e.target.value) })}
+                onChange={(e) => {
+                  const val = parseInt(e.target.value) || 7;
+                  setSecurityConfig({ ...securityConfig, log_retention_days: Math.min(Math.max(val, 7), 365) });
+                }}
                 className="w-full px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                min="7"
-                max="365"
+                placeholder="7-365"
               />
               <p className="text-xs text-slate-500 mt-1">Used for manual cleanup - logs older than this can be deleted with the cleanup button</p>
             </div>
@@ -311,13 +367,22 @@ export default function SecurityDashboard() {
             </p>
           </div>
 
-          <button
-            onClick={handleSaveConfig}
-            disabled={savingConfig}
-            className="mt-4 px-6 py-2 bg-blue-500 hover:bg-blue-600 disabled:bg-slate-600 text-white rounded-lg transition-colors"
-          >
-            {savingConfig ? 'Saving...' : 'Save Settings'}
-          </button>
+          <div className="mt-4 flex gap-3">
+            <button
+              onClick={handleSaveConfig}
+              disabled={savingConfig}
+              className="px-6 py-2 bg-blue-500 hover:bg-blue-600 disabled:bg-slate-600 text-white rounded-lg transition-colors"
+            >
+              {savingConfig ? 'Saving...' : 'Save Settings'}
+            </button>
+            <button
+              onClick={handleTestBot}
+              disabled={testingBot || !securityConfig?.telegram_bot_token || !securityConfig?.telegram_chat_id}
+              className="px-6 py-2 bg-green-500/20 hover:bg-green-500/30 disabled:bg-slate-700 text-green-400 rounded-lg transition-colors border border-green-500/30"
+            >
+              {testingBot ? 'Testing...' : 'Test Bot'}
+            </button>
+          </div>
         </div>
       )}
 

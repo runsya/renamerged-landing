@@ -8,7 +8,7 @@ const corsHeaders = {
 };
 
 interface NotificationPayload {
-  type: 'failed_login' | 'account_locked' | 'suspicious_activity' | 'manual_unlock';
+  type: 'failed_login' | 'account_locked' | 'suspicious_activity' | 'manual_unlock' | 'test';
   email: string;
   ip_address?: string;
   failed_attempts?: number;
@@ -81,6 +81,14 @@ Deno.serve(async (req: Request) => {
           `📧 Email: ${payload.email}\n` +
           `⏰ Time: ${timestamp}\n` +
           `${payload.details ? `\n📝 Details: ${payload.details}` : ''}`;
+        break;
+
+      case "test":
+        message = `✅ *Test Notification*\n\n` +
+          `Your Telegram bot is working correctly!\n\n` +
+          `⏰ Time: ${timestamp}\n` +
+          `📧 Admin: ${payload.email}\n\n` +
+          `🎉 All security notifications will be sent to this chat.`;
         break;
     }
 
