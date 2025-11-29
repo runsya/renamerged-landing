@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Settings, Save, AlertCircle, CheckCircle, Link as LinkIcon, Package, Github } from 'lucide-react';
+import { Settings, Save, AlertCircle, CheckCircle, Link as LinkIcon, Package, Github, HardDrive } from 'lucide-react';
 
 interface SiteConfig {
   id: string;
   github_repo_url: string;
   download_url: string;
   version: string;
+  file_size: string;
   updated_at: string;
 }
 
@@ -45,7 +46,7 @@ export default function AppConfigManager() {
   const handleSave = async () => {
     if (!config) return;
 
-    if (!config.github_repo_url || !config.download_url || !config.version) {
+    if (!config.github_repo_url || !config.download_url || !config.version || !config.file_size) {
       showMessage('error', 'All fields are required');
       return;
     }
@@ -58,6 +59,7 @@ export default function AppConfigManager() {
           github_repo_url: config.github_repo_url,
           download_url: config.download_url,
           version: config.version,
+          file_size: config.file_size,
           updated_at: new Date().toISOString(),
         })
         .eq('id', config.id);
@@ -162,21 +164,40 @@ export default function AppConfigManager() {
           </p>
         </div>
 
-        <div className="space-y-2">
-          <label className="flex items-center gap-2 text-sm font-medium text-slate-300">
-            <Package size={16} />
-            Current Version
-          </label>
-          <input
-            type="text"
-            value={config.version}
-            onChange={(e) => updateField('version', e.target.value)}
-            placeholder="1.0.0"
-            className="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-          />
-          <p className="text-xs text-slate-500">
-            Semantic version number (e.g., 1.0.0, 2.1.3)
-          </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-2">
+            <label className="flex items-center gap-2 text-sm font-medium text-slate-300">
+              <Package size={16} />
+              Current Version
+            </label>
+            <input
+              type="text"
+              value={config.version}
+              onChange={(e) => updateField('version', e.target.value)}
+              placeholder="1.0.0"
+              className="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+            />
+            <p className="text-xs text-slate-500">
+              Semantic version number (e.g., 1.0.0, 2.1.3)
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <label className="flex items-center gap-2 text-sm font-medium text-slate-300">
+              <HardDrive size={16} />
+              File Size
+            </label>
+            <input
+              type="text"
+              value={config.file_size}
+              onChange={(e) => updateField('file_size', e.target.value)}
+              placeholder="~33MB"
+              className="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+            />
+            <p className="text-xs text-slate-500">
+              Display file size (e.g., ~33MB, 45.2MB)
+            </p>
+          </div>
         </div>
 
         <div className="pt-4 border-t border-slate-700">
@@ -214,6 +235,7 @@ export default function AppConfigManager() {
               <li>GitHub URL should point to your repository homepage</li>
               <li>Download URL should be a direct link to the installer file</li>
               <li>Version format: MAJOR.MINOR.PATCH (e.g., 1.0.0)</li>
+              <li>File size format: use ~ for approximate (e.g., ~33MB, 45.2MB)</li>
               <li>Changes will be reflected on the landing page immediately</li>
             </ul>
           </div>
