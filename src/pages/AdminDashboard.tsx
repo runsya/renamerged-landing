@@ -29,6 +29,8 @@ export default function AdminDashboard() {
   const [saving, setSaving] = useState(false);
   const [savingEntryId, setSavingEntryId] = useState<string | null>(null);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [editingEntryId, setEditingEntryId] = useState<string | null>(null);
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
   const [config, setConfig] = useState<SiteConfig | null>(null);
   const [changelog, setChangelog] = useState<ChangelogEntry[]>([]);
@@ -156,7 +158,13 @@ export default function AdminDashboard() {
   };
 
   const deleteChangelogEntry = (id: string) => {
-    deleteChangelogFromDB(id);
+    if (deleteConfirmId === id) {
+      deleteChangelogFromDB(id);
+      setDeleteConfirmId(null);
+    } else {
+      setDeleteConfirmId(id);
+      setTimeout(() => setDeleteConfirmId(null), 3000);
+    }
   };
 
   const validateDate = (dateStr: string): boolean => {
@@ -425,13 +433,47 @@ export default function AdminDashboard() {
                           placeholder="DD/MM/YYYY"
                           className="px-3 py-2 bg-slate-800 border border-slate-600 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
-                        <button
-                          onClick={() => deleteChangelogEntry(entry.id)}
-                          className="px-3 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded transition-colors"
+                        <AnimatePresence>
+                          {editingEntryId === entry.id && (
+                            <motion.button
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              exit={{ opacity: 0, scale: 0.8 }}
+                              onClick={() => deleteChangelogEntry(entry.id)}
+                              className={`px-3 py-2 rounded transition-colors ${
+                                deleteConfirmId === entry.id
+                                  ? 'bg-red-500 hover:bg-red-600 text-white'
+                                  : 'bg-red-500/10 hover:bg-red-500/20 text-red-400'
+                              }`}
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </motion.button>
+                          )}
+                        </AnimatePresence>
+                        <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => setEditingEntryId(editingEntryId === entry.id ? null : entry.id)}
+                          className={`px-3 py-2 rounded transition-colors ${
+                            editingEntryId === entry.id
+                              ? 'bg-blue-500 text-white'
+                              : 'bg-slate-700 hover:bg-slate-600 text-slate-300'
+                          }`}
                         >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
+                          {editingEntryId === entry.id ? 'Done' : 'Edit'}
+                        </motion.button>
                       </div>
+                      {deleteConfirmId === entry.id && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="flex items-center gap-2 p-3 bg-red-500/10 border border-red-500/20 rounded-lg"
+                        >
+                          <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
+                          <p className="text-sm text-red-400">Klik tombol delete lagi untuk konfirmasi hapus!</p>
+                        </motion.div>
+                      )}
 
                       <div className="space-y-3">
                         <div className="p-3 bg-green-500/5 border border-green-500/20 rounded-lg">
