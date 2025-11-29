@@ -184,7 +184,7 @@ export default function DownloadChart() {
 
         <div className="absolute left-0 top-0 bottom-8 flex flex-col justify-between text-xs text-slate-500 -ml-8">
           <span>{maxCount}</span>
-          <span>{Math.floor(maxCount / 2)}</span>
+          {maxCount > 1 && <span>{Math.floor(maxCount / 2)}</span>}
           <span>0</span>
         </div>
       </div>
