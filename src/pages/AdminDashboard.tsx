@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { LogOut, Settings, FileText, Plus, Trash2, Save, AlertCircle, ChevronDown, Key } from 'lucide-react';
+import { LogOut, Settings, FileText, Plus, Trash2, Save, AlertCircle, ChevronDown, Key, Search, HelpCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import SEOManager from '../components/admin/SEOManager';
+import FAQManager from '../components/admin/FAQManager';
 
 interface SiteConfig {
   id: string;
@@ -42,7 +44,7 @@ export default function AdminDashboard() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordLoading, setPasswordLoading] = useState(false);
 
-  const [activeTab, setActiveTab] = useState<'config' | 'changelog' | 'password'>('config');
+  const [activeTab, setActiveTab] = useState<'config' | 'changelog' | 'password' | 'seo' | 'faq'>('config');
 
   useEffect(() => {
     checkAuth();
@@ -332,21 +334,21 @@ export default function AdminDashboard() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700 rounded-2xl shadow-2xl overflow-hidden">
-          <div className="flex border-b border-slate-700">
+          <div className="flex border-b border-slate-700 overflow-x-auto">
             <button
               onClick={() => setActiveTab('config')}
-              className={`flex-1 flex items-center justify-center gap-2 px-6 py-4 font-semibold transition-colors ${
+              className={`flex items-center justify-center gap-2 px-4 py-4 font-semibold transition-colors whitespace-nowrap ${
                 activeTab === 'config'
                   ? 'bg-blue-500/10 text-blue-400 border-b-2 border-blue-500'
                   : 'text-slate-400 hover:text-slate-300 hover:bg-slate-700/50'
               }`}
             >
               <Settings className="w-5 h-5" />
-              Site Configuration
+              Config
             </button>
             <button
               onClick={() => setActiveTab('changelog')}
-              className={`flex-1 flex items-center justify-center gap-2 px-6 py-4 font-semibold transition-colors ${
+              className={`flex items-center justify-center gap-2 px-4 py-4 font-semibold transition-colors whitespace-nowrap ${
                 activeTab === 'changelog'
                   ? 'bg-blue-500/10 text-blue-400 border-b-2 border-blue-500'
                   : 'text-slate-400 hover:text-slate-300 hover:bg-slate-700/50'
@@ -356,15 +358,37 @@ export default function AdminDashboard() {
               Changelog
             </button>
             <button
+              onClick={() => setActiveTab('seo')}
+              className={`flex items-center justify-center gap-2 px-4 py-4 font-semibold transition-colors whitespace-nowrap ${
+                activeTab === 'seo'
+                  ? 'bg-blue-500/10 text-blue-400 border-b-2 border-blue-500'
+                  : 'text-slate-400 hover:text-slate-300 hover:bg-slate-700/50'
+              }`}
+            >
+              <Search className="w-5 h-5" />
+              SEO
+            </button>
+            <button
+              onClick={() => setActiveTab('faq')}
+              className={`flex items-center justify-center gap-2 px-4 py-4 font-semibold transition-colors whitespace-nowrap ${
+                activeTab === 'faq'
+                  ? 'bg-blue-500/10 text-blue-400 border-b-2 border-blue-500'
+                  : 'text-slate-400 hover:text-slate-300 hover:bg-slate-700/50'
+              }`}
+            >
+              <HelpCircle className="w-5 h-5" />
+              FAQ
+            </button>
+            <button
               onClick={() => setActiveTab('password')}
-              className={`flex-1 flex items-center justify-center gap-2 px-6 py-4 font-semibold transition-colors ${
+              className={`flex items-center justify-center gap-2 px-4 py-4 font-semibold transition-colors whitespace-nowrap ${
                 activeTab === 'password'
                   ? 'bg-blue-500/10 text-blue-400 border-b-2 border-blue-500'
                   : 'text-slate-400 hover:text-slate-300 hover:bg-slate-700/50'
               }`}
             >
               <Key className="w-5 h-5" />
-              Change Password
+              Password
             </button>
           </div>
 
@@ -758,6 +782,26 @@ export default function AdminDashboard() {
                     </button>
                   </motion.div>
                 )}
+              </motion.div>
+            )}
+
+            {activeTab === 'seo' && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                <SEOManager />
+              </motion.div>
+            )}
+
+            {activeTab === 'faq' && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                <FAQManager />
               </motion.div>
             )}
 
