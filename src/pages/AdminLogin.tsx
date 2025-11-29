@@ -17,11 +17,6 @@ export default function AdminLogin() {
     e.preventDefault();
     setError('');
 
-    if (!captchaToken) {
-      setError('Please complete the reCAPTCHA');
-      return;
-    }
-
     setLoading(true);
 
     try {
@@ -90,7 +85,7 @@ export default function AdminLogin() {
               </div>
             </div>
 
-            <div className="flex justify-center">
+            {/* <div className="flex justify-center">
               <ReCAPTCHA
                 ref={recaptchaRef}
                 sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY || ''}
@@ -101,7 +96,7 @@ export default function AdminLogin() {
                 onExpired={() => setCaptchaToken(null)}
                 theme="dark"
               />
-            </div>
+            </div> */}
 
             {error && (
               <div className="flex items-center gap-2 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
