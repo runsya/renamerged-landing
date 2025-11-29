@@ -73,17 +73,17 @@ function SortableFAQItem({
         faq.is_active ? 'border-slate-700' : 'border-red-500/30'
       } rounded-lg p-4 ${isDragging ? 'z-50 shadow-2xl' : ''}`}
     >
-      <div className="flex items-start gap-3">
+      <div className="flex items-center gap-3">
         <div
           {...attributes}
           {...listeners}
-          className="flex items-center justify-center w-10 h-10 bg-blue-500/20 border border-blue-500/30 rounded-lg flex-shrink-0 cursor-grab active:cursor-grabbing hover:bg-blue-500/30 transition-colors mt-1"
+          className="flex items-center justify-center w-10 h-10 bg-blue-500/20 border border-blue-500/30 rounded-lg flex-shrink-0 cursor-grab active:cursor-grabbing hover:bg-blue-500/30 transition-colors"
           title="Drag to reorder"
         >
           <GripVertical size={20} className="text-blue-400" />
         </div>
 
-        <div className="flex items-center justify-center w-8 h-8 bg-slate-700/50 rounded-lg flex-shrink-0 mt-1">
+        <div className="flex items-center justify-center w-8 h-8 bg-slate-700/50 rounded-lg flex-shrink-0">
           <span className="text-base font-bold text-slate-300">{index + 1}</span>
         </div>
 
@@ -107,7 +107,7 @@ function SortableFAQItem({
             </div>
           ) : (
             <div className="space-y-1">
-              <h4 className="text-base font-semibold text-white">{faq.question}</h4>
+              <h4 className="text-base font-semibold text-white leading-tight">{faq.question}</h4>
               <p className="text-sm text-gray-400 leading-relaxed">{faq.answer}</p>
             </div>
           )}
