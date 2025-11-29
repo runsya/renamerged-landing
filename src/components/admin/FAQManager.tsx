@@ -71,37 +71,64 @@ function SortableFAQItem({
       style={style}
       className={`bg-slate-800/50 border ${
         faq.is_active ? 'border-slate-700' : 'border-red-500/30'
-      } rounded-lg p-6 space-y-4 ${isDragging ? 'z-50 shadow-2xl' : ''}`}
+      } rounded-lg p-4 ${isDragging ? 'z-50 shadow-2xl' : ''}`}
     >
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <div
-            {...attributes}
-            {...listeners}
-            className="flex items-center justify-center w-12 h-12 bg-blue-500/20 border border-blue-500/30 rounded-lg flex-shrink-0 cursor-grab active:cursor-grabbing hover:bg-blue-500/30 transition-colors"
-            title="Drag to reorder"
-          >
-            <GripVertical size={24} className="text-blue-400" />
-          </div>
-          <div className="flex items-center justify-center w-10 h-10 bg-slate-700/50 rounded-lg flex-shrink-0">
-            <span className="text-lg font-bold text-slate-300">{index + 1}</span>
-          </div>
+      <div className="flex items-start gap-3">
+        <div
+          {...attributes}
+          {...listeners}
+          className="flex items-center justify-center w-10 h-10 bg-blue-500/20 border border-blue-500/30 rounded-lg flex-shrink-0 cursor-grab active:cursor-grabbing hover:bg-blue-500/30 transition-colors mt-1"
+          title="Drag to reorder"
+        >
+          <GripVertical size={20} className="text-blue-400" />
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-center w-8 h-8 bg-slate-700/50 rounded-lg flex-shrink-0 mt-1">
+          <span className="text-base font-bold text-slate-300">{index + 1}</span>
+        </div>
+
+        <div className="flex-1 min-w-0">
+          {editingId === faq.id ? (
+            <div className="space-y-3">
+              <input
+                type="text"
+                value={faq.question}
+                onChange={(e) => onFieldUpdate(faq.id, 'question', e.target.value)}
+                placeholder="Question"
+                className="w-full px-3 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <textarea
+                value={faq.answer}
+                onChange={(e) => onFieldUpdate(faq.id, 'answer', e.target.value)}
+                placeholder="Answer"
+                rows={3}
+                className="w-full px-3 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          ) : (
+            <div className="space-y-1">
+              <h4 className="text-base font-semibold text-white">{faq.question}</h4>
+              <p className="text-sm text-gray-400 leading-relaxed">{faq.answer}</p>
+            </div>
+          )}
+        </div>
+
+        <div className="flex items-center gap-2 flex-shrink-0">
           {editingId === faq.id ? (
             <>
               <button
                 onClick={() => onUpdate(faq.id)}
-                className="p-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors"
+                className="p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
+                title="Save"
               >
-                <Save size={18} />
+                <Edit2 size={16} />
               </button>
               <button
                 onClick={onCancelEdit}
                 className="p-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors"
+                title="Cancel"
               >
-                <X size={18} />
+                <X size={16} />
               </button>
             </>
           ) : (
@@ -109,72 +136,21 @@ function SortableFAQItem({
               <button
                 onClick={() => onEdit(faq.id)}
                 className="p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
+                title="Edit"
               >
-                <Edit2 size={18} />
+                <Edit2 size={16} />
               </button>
               <button
                 onClick={() => onDelete(faq.id)}
                 className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
+                title="Delete"
               >
-                <Trash2 size={18} />
+                <Trash2 size={16} />
               </button>
             </>
           )}
         </div>
       </div>
-
-      {editingId === faq.id ? (
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
-              Question
-            </label>
-            <input
-              type="text"
-              value={faq.question}
-              onChange={(e) => onFieldUpdate(faq.id, 'question', e.target.value)}
-              className="w-full px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
-              Answer
-            </label>
-            <textarea
-              value={faq.answer}
-              onChange={(e) => onFieldUpdate(faq.id, 'answer', e.target.value)}
-              rows={4}
-              className="w-full px-4 py-2 bg-slate-900/50 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              id={`active_${faq.id}`}
-              checked={faq.is_active}
-              onChange={(e) => onFieldUpdate(faq.id, 'is_active', e.target.checked)}
-              className="w-4 h-4 rounded bg-slate-700 border-slate-600"
-            />
-            <label htmlFor={`active_${faq.id}`} className="text-sm text-slate-300">
-              Active (visible on website)
-            </label>
-          </div>
-        </div>
-      ) : (
-        <div className="space-y-2">
-          <div className="flex items-start justify-between gap-4">
-            <h4 className="text-lg font-semibold text-white">{faq.question}</h4>
-            {!faq.is_active && (
-              <span className="px-2 py-1 bg-red-500/20 text-red-400 text-xs rounded">
-                Inactive
-              </span>
-            )}
-          </div>
-          <p className="text-gray-400 leading-relaxed">{faq.answer}</p>
-        </div>
-      )}
     </div>
   );
 }
