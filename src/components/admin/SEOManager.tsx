@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Save, AlertCircle, CheckCircle } from 'lucide-react';
+import { Save } from 'lucide-react';
+import { ToastType } from './ToastContainer';
 
 interface SEOSettings {
   id: string;
@@ -15,11 +16,14 @@ interface SEOSettings {
   canonical_url: string;
 }
 
-export default function SEOManager() {
+interface SEOManagerProps {
+  showToast: (message: string, type: ToastType) => void;
+}
+
+export default function SEOManager({ showToast }: SEOManagerProps) {
   const [settings, setSettings] = useState<SEOSettings | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   useEffect(() => {
     loadSettings();
@@ -36,7 +40,7 @@ export default function SEOManager() {
       if (data) setSettings(data);
     } catch (error) {
       console.error('Error loading SEO settings:', error);
-      setMessage({ type: 'error', text: 'Failed to load SEO settings' });
+      showToast('Failed to load SEO settings', 'error');
     } finally {
       setLoading(false);
     }
@@ -46,7 +50,6 @@ export default function SEOManager() {
     if (!settings) return;
 
     setSaving(true);
-    setMessage(null);
 
     try {
       const { error } = await supabase
@@ -67,11 +70,10 @@ export default function SEOManager() {
 
       if (error) throw error;
 
-      setMessage({ type: 'success', text: 'SEO settings saved successfully!' });
-      setTimeout(() => setMessage(null), 3000);
+      showToast('SEO settings saved successfully!', 'success');
     } catch (error) {
       console.error('Error saving SEO settings:', error);
-      setMessage({ type: 'error', text: 'Failed to save SEO settings' });
+      showToast('Failed to save SEO settings', 'error');
     } finally {
       setSaving(false);
     }
@@ -100,23 +102,6 @@ export default function SEOManager() {
 
   return (
     <div className="space-y-6">
-      {message && (
-        <div className={`flex items-center gap-2 p-4 rounded-lg ${
-          message.type === 'success'
-            ? 'bg-green-500/10 border border-green-500/20'
-            : 'bg-red-500/10 border border-red-500/20'
-        }`}>
-          {message.type === 'success' ? (
-            <CheckCircle className="text-green-400" size={20} />
-          ) : (
-            <AlertCircle className="text-red-400" size={20} />
-          )}
-          <p className={message.type === 'success' ? 'text-green-400' : 'text-red-400'}>
-            {message.text}
-          </p>
-        </div>
-      )}
-
       <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6 space-y-6">
         <h3 className="text-xl font-bold text-white mb-4">Basic SEO Settings</h3>
 

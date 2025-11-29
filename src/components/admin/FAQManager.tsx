@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Plus, Edit2, Trash2, Save, X, AlertCircle, CheckCircle, GripVertical } from 'lucide-react';
+import { Plus, Edit2, Trash2, Save, X, GripVertical } from 'lucide-react';
+import { ToastType } from './ToastContainer';
 import {
   DndContext,
   closestCenter,
@@ -155,12 +156,15 @@ function SortableFAQItem({
   );
 }
 
-export default function FAQManager() {
+interface FAQManagerProps {
+  showToast: (message: string, type: ToastType) => void;
+}
+
+export default function FAQManager({ showToast }: FAQManagerProps) {
   const [faqs, setFaqs] = useState<FAQItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isAdding, setIsAdding] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [formData, setFormData] = useState({
     question: '',
     answer: '',
@@ -189,20 +193,15 @@ export default function FAQManager() {
       setFaqs(data || []);
     } catch (error) {
       console.error('Error loading FAQs:', error);
-      showMessage('error', 'Failed to load FAQs');
+      showToast('Failed to load FAQs', 'error');
     } finally {
       setLoading(false);
     }
   };
 
-  const showMessage = (type: 'success' | 'error', text: string) => {
-    setMessage({ type, text });
-    setTimeout(() => setMessage(null), 3000);
-  };
-
   const handleAdd = async () => {
     if (!formData.question || !formData.answer) {
-      showMessage('error', 'Please fill in all fields');
+      showToast('Please fill in all fields', 'error');
       return;
     }
 
@@ -220,13 +219,13 @@ export default function FAQManager() {
 
       if (error) throw error;
 
-      showMessage('success', 'FAQ added successfully!');
+      showToast('FAQ added successfully!', 'success');
       setIsAdding(false);
       setFormData({ question: '', answer: '', is_active: true });
       loadFAQs();
     } catch (error) {
       console.error('Error adding FAQ:', error);
-      showMessage('error', 'Failed to add FAQ');
+      showToast('Failed to add FAQ', 'error');
     }
   };
 
@@ -247,12 +246,12 @@ export default function FAQManager() {
 
       if (error) throw error;
 
-      showMessage('success', 'FAQ updated successfully!');
+      showToast('FAQ updated successfully!', 'success');
       setEditingId(null);
       loadFAQs();
     } catch (error) {
       console.error('Error updating FAQ:', error);
-      showMessage('error', 'Failed to update FAQ');
+      showToast('Failed to update FAQ', 'error');
     }
   };
 
@@ -267,11 +266,11 @@ export default function FAQManager() {
 
       if (error) throw error;
 
-      showMessage('success', 'FAQ deleted successfully!');
+      showToast('FAQ deleted successfully!', 'success');
       loadFAQs();
     } catch (error) {
       console.error('Error deleting FAQ:', error);
-      showMessage('error', 'Failed to delete FAQ');
+      showToast('Failed to delete FAQ', 'error');
     }
   };
 
@@ -299,10 +298,10 @@ export default function FAQManager() {
           .eq('id', update.id);
       }
 
-      showMessage('success', 'FAQ order updated!');
+      showToast('FAQ order updated!', 'success');
     } catch (error) {
       console.error('Error updating FAQ order:', error);
-      showMessage('error', 'Failed to reorder FAQs');
+      showToast('Failed to reorder FAQs', 'error');
       loadFAQs();
     }
   };
@@ -323,23 +322,6 @@ export default function FAQManager() {
 
   return (
     <div className="space-y-6">
-      {message && (
-        <div className={`flex items-center gap-2 p-4 rounded-lg ${
-          message.type === 'success'
-            ? 'bg-green-500/10 border border-green-500/20'
-            : 'bg-red-500/10 border border-red-500/20'
-        }`}>
-          {message.type === 'success' ? (
-            <CheckCircle className="text-green-400" size={20} />
-          ) : (
-            <AlertCircle className="text-red-400" size={20} />
-          )}
-          <p className={message.type === 'success' ? 'text-green-400' : 'text-red-400'}>
-            {message.text}
-          </p>
-        </div>
-      )}
-
       <div className="flex justify-between items-center">
         <div>
           <h3 className="text-2xl font-bold text-white">FAQ Management</h3>

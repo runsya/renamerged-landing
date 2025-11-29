@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Settings, Save, AlertCircle, CheckCircle, Link as LinkIcon, Package, Github, HardDrive } from 'lucide-react';
+import { Save, Link as LinkIcon, Package, Github, HardDrive, Settings } from 'lucide-react';
+import { ToastType } from './ToastContainer';
 
 interface SiteConfig {
   id: string;
@@ -11,11 +12,14 @@ interface SiteConfig {
   updated_at: string;
 }
 
-export default function AppConfigManager() {
+interface AppConfigManagerProps {
+  showToast: (message: string, type: ToastType) => void;
+}
+
+export default function AppConfigManager({ showToast }: AppConfigManagerProps) {
   const [config, setConfig] = useState<SiteConfig | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   useEffect(() => {
     loadConfig();
@@ -32,22 +36,17 @@ export default function AppConfigManager() {
       setConfig(data);
     } catch (error) {
       console.error('Error loading config:', error);
-      showMessage('error', 'Failed to load configuration');
-    } finally {
+      showToast('Failed to load configuration', 'error');
+    } finally{
       setLoading(false);
     }
-  };
-
-  const showMessage = (type: 'success' | 'error', text: string) => {
-    setMessage({ type, text });
-    setTimeout(() => setMessage(null), 3000);
   };
 
   const handleSave = async () => {
     if (!config) return;
 
     if (!config.github_repo_url || !config.download_url || !config.version || !config.file_size) {
-      showMessage('error', 'All fields are required');
+      showToast('All fields are required', 'error');
       return;
     }
 
@@ -66,11 +65,11 @@ export default function AppConfigManager() {
 
       if (error) throw error;
 
-      showMessage('success', 'Configuration saved successfully!');
+      showToast('Configuration saved successfully!', 'success');
       loadConfig();
     } catch (error) {
       console.error('Error saving config:', error);
-      showMessage('error', 'Failed to save configuration');
+      showToast('Failed to save configuration', 'error');
     } finally {
       setSaving(false);
     }
@@ -104,23 +103,6 @@ export default function AppConfigManager() {
 
   return (
     <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6 space-y-6">
-      {message && (
-        <div className={`flex items-center gap-2 p-4 rounded-lg ${
-          message.type === 'success'
-            ? 'bg-green-500/10 border border-green-500/20'
-            : 'bg-red-500/10 border border-red-500/20'
-        }`}>
-          {message.type === 'success' ? (
-            <CheckCircle className="text-green-400" size={20} />
-          ) : (
-            <AlertCircle className="text-red-400" size={20} />
-          )}
-          <p className={message.type === 'success' ? 'text-green-400' : 'text-red-400'}>
-            {message.text}
-          </p>
-        </div>
-      )}
-
       <div>
         <div className="flex items-center gap-2">
           <Settings className="text-blue-400" size={24} />
