@@ -264,24 +264,28 @@ export default function FAQManager() {
               } rounded-lg p-6 space-y-4`}
             >
               <div className="flex items-start justify-between gap-4">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center justify-center w-12 h-12 bg-blue-500/20 border border-blue-500/30 rounded-lg flex-shrink-0">
+                    <span className="text-xl font-bold text-blue-400">{index + 1}</span>
+                  </div>
                   <div className="flex flex-col gap-1">
                     <button
                       onClick={() => handleMove(faq.id, 'up')}
                       disabled={index === 0}
-                      className="p-1 hover:bg-slate-700 rounded disabled:opacity-30 disabled:cursor-not-allowed"
+                      className="p-1 hover:bg-slate-700 rounded disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                      title="Move up"
                     >
-                      <MoveUp size={16} className="text-gray-400" />
+                      <MoveUp size={18} className="text-gray-400" />
                     </button>
                     <button
                       onClick={() => handleMove(faq.id, 'down')}
                       disabled={index === faqs.length - 1}
-                      className="p-1 hover:bg-slate-700 rounded disabled:opacity-30 disabled:cursor-not-allowed"
+                      className="p-1 hover:bg-slate-700 rounded disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                      title="Move down"
                     >
-                      <MoveDown size={16} className="text-gray-400" />
+                      <MoveDown size={18} className="text-gray-400" />
                     </button>
                   </div>
-                  <span className="text-gray-500 text-sm font-mono">#{faq.sort_order}</span>
                 </div>
 
                 <div className="flex items-center gap-2">
