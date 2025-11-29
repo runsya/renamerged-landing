@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { LogOut, Settings, FileText, Plus, Trash2, Save, AlertCircle } from 'lucide-react';
+import { LogOut, Settings, FileText, Plus, Trash2, Save, AlertCircle, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface SiteConfig {
