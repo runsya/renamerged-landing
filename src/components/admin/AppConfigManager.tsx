@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Save, Link as LinkIcon, Package, Github, HardDrive, Settings } from 'lucide-react';
+import { Save, Link as LinkIcon, Package, Github, HardDrive, Settings, AlertCircle } from 'lucide-react';
 import { ToastType } from './ToastContainer';
 
 interface SiteConfig {

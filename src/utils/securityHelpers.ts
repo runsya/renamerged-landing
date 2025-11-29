@@ -165,12 +165,15 @@ export async function sendTelegramNotification(payload: {
 }) {
   try {
     const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
     const response = await fetch(
       `${supabaseUrl}/functions/v1/send-telegram-notification`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'apikey': supabaseAnonKey,
         },
         body: JSON.stringify(payload),
       }
