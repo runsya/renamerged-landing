@@ -1,37 +1,24 @@
-import { useState } from 'react';
-import Navbar from './components/Navbar';
-import HeroSection from './components/HeroSection';
-import FeaturesSection from './components/FeaturesSection';
-import HowItWorksSection from './components/HowItWorksSection';
-import SecuritySection from './components/SecuritySection';
-import SecurityTransparencySection from './components/SecurityTransparencySection';
-import InstallationGuideSection from './components/InstallationGuideSection';
-import FAQSection from './components/FAQSection';
-import ChangelogSection from './components/ChangelogSection';
-import DonationSection from './components/DonationSection';
-import Footer from './components/Footer';
-import DownloadModal from './components/DownloadModal';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import AdminLogin from './pages/AdminLogin';
+import AdminDashboard from './pages/AdminDashboard';
+import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
-  const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
-
   return (
-    <div className="min-h-screen bg-slate-900 text-white">
-      <Navbar onDownloadClick={() => setIsDownloadModalOpen(true)} />
-      <HeroSection onDownloadClick={() => setIsDownloadModalOpen(true)} />
-      <FeaturesSection />
-      <HowItWorksSection />
-      <SecuritySection />
-      <SecurityTransparencySection />
-      <InstallationGuideSection />
-      <FAQSection />
-      <ChangelogSection />
-      <DonationSection />
-      <Footer />
-      <DownloadModal
-        isOpen={isDownloadModalOpen}
-        onClose={() => setIsDownloadModalOpen(false)}
-      />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
