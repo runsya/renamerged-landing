@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { LogOut, Settings, FileText, Plus, Trash2, Save, AlertCircle, ChevronDown, Key, Search, HelpCircle } from 'lucide-react';
+import { LogOut, Settings, FileText, Plus, Trash2, Save, AlertCircle, ChevronDown, Key, Search, HelpCircle, BarChart3, Users, Download as DownloadIcon, Sliders } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SEOManager from '../components/admin/SEOManager';
 import FAQManager from '../components/admin/FAQManager';
+import DownloadChart from '../components/admin/DownloadChart';
+import VisitorAnalytics from '../components/admin/VisitorAnalytics';
+import RecentDownloads from '../components/admin/RecentDownloads';
+import AppConfigManager from '../components/admin/AppConfigManager';
 
 interface SiteConfig {
   id: string;
@@ -44,7 +48,7 @@ export default function AdminDashboard() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordLoading, setPasswordLoading] = useState(false);
 
-  const [activeTab, setActiveTab] = useState<'config' | 'changelog' | 'password' | 'seo' | 'faq'>('config');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'config' | 'changelog' | 'password' | 'seo' | 'faq'>('dashboard');
 
   useEffect(() => {
     checkAuth();
@@ -336,6 +340,17 @@ export default function AdminDashboard() {
         <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700 rounded-2xl shadow-2xl overflow-hidden">
           <div className="flex border-b border-slate-700 overflow-x-auto">
             <button
+              onClick={() => setActiveTab('dashboard')}
+              className={`flex items-center justify-center gap-2 px-4 py-4 font-semibold transition-colors whitespace-nowrap ${
+                activeTab === 'dashboard'
+                  ? 'bg-blue-500/10 text-blue-400 border-b-2 border-blue-500'
+                  : 'text-slate-400 hover:text-slate-300 hover:bg-slate-700/50'
+              }`}
+            >
+              <BarChart3 className="w-5 h-5" />
+              Dashboard
+            </button>
+            <button
               onClick={() => setActiveTab('config')}
               className={`flex items-center justify-center gap-2 px-4 py-4 font-semibold transition-colors whitespace-nowrap ${
                 activeTab === 'config'
@@ -343,7 +358,7 @@ export default function AdminDashboard() {
                   : 'text-slate-400 hover:text-slate-300 hover:bg-slate-700/50'
               }`}
             >
-              <Settings className="w-5 h-5" />
+              <Sliders className="w-5 h-5" />
               Config
             </button>
             <button
@@ -412,7 +427,37 @@ export default function AdminDashboard() {
               )}
             </AnimatePresence>
 
-            {activeTab === 'config' && config && (
+            {activeTab === 'dashboard' && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className="space-y-6"
+              >
+                <div className="mb-8">
+                  <h2 className="text-2xl font-bold text-white mb-2">Analytics Dashboard</h2>
+                  <p className="text-slate-400">Monitor your application's performance and user activity</p>
+                </div>
+
+                <VisitorAnalytics />
+
+                <DownloadChart />
+
+                <RecentDownloads />
+              </motion.div>
+            )}
+
+            {activeTab === 'config' && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                <AppConfigManager />
+              </motion.div>
+            )}
+
+            {activeTab === 'config' && config && false && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
